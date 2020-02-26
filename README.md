@@ -1,4 +1,4 @@
-# Linkar with PHP using libLinkarClientC.so Library
+# Linkar with PHP in Linux using libLinkarClientC.so Library
 
 This demo shows how a persistent client works with a PHP document and send the resultant information in HTML.
 
@@ -10,7 +10,7 @@ With the PHP extension installed, you must put the "LinkarClib.php" file in the 
 
 You can see the result of "LinkarClib.php" using your web browser.
 
-# using linkaclientCOM.dll library in Windows
+# Linkar with PHP in Windows using linkaclientCOM.dll Library
 
 You must change login information that is inside the documents "com.php".
 
