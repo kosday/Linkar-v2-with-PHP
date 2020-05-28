@@ -8,11 +8,10 @@
 
 try 
 {
-	
-
 	//LOGIN
 	$crd = new COM("LinkarCommon.CredentialsOptions");
-	// Change your own credentials: LinkarHost, Port, LinkarUser, Password, EntryPoint, Language, Free Text
+
+	// Change your own credentials: LinkarHost, EntryPoint, Port, LinkarUser, Password, Language, Free Text
 	$crd -> InitializeProperties("127.0.0.1","EntryPoint1",11300,"admin","admin","","From PHP");
 	$lkClt = new COM("LinkarClient.LinkarClt");
 	$error = $lkClt -> Login($crd);
@@ -35,7 +34,7 @@ try
 		$strNewId = "A99";
 		$fileName = "LK.CUSTOMERS";
 		
-		$mylkdata = new COM("LinkarClient.LkData");
+		$mylkdata = new COM("LinkarCommon.LkData");
 		$mylkstring = "";
 		
 		//NEW
@@ -43,13 +42,7 @@ try
 		$strNewRecord = "CUSTOMER 99{$mvchars->AM_str}ADDRESS 99{$mvchars->AM_str}999 - 999 - 99";
 		
 		$nop = new COM("LinkarCommon.NewOptions");
-		$nrit = new COM("LinkarCommon.NewRecordIdType");
-		$nritl = new COM("LinkarCommon.NewRecordIdTypeLinkar");
-		$nritr = new COM("LinkarCommon.NewRecordIdTypeRandom");
-	
-		$nritl -> InitializeProperties(false, "", "", "");
-		$nritr -> InitializeProperties(false, false, 0);
-		$nrit -> InitializeProperties($nritl, $nritr, false);
+		$nrit = new COM("LinkarCommon.RecordIdType");
 		$nop -> InitializeProperties($nrit, true, false, false, false, false, false);
 		
 		$mylkdata = $lkClt -> New($fileName, $strNewId, $strNewRecord, $nop);
@@ -163,10 +156,8 @@ try
 		//DELETE
 		
 		$dop = new COM("LinkarCommon.DeleteOptions");
-		$rritl = new COM("LinkarCommon.RecoverRecordIdTypeLinkar");
-	
-		$rritl -> InitializeProperties(false, "", "");
-		$dop -> InitializeProperties(false,$rritl, false);
+		$rritl = new COM("LinkarCommon.RecoverIdType");	
+		$dop -> InitializeProperties(false,$rritl);
 		
 		$mylkdata = $lkClt -> Delete($fileName, $strNewId, $dop);
 		
@@ -291,8 +282,7 @@ try
 				echo "</tr>";
 			}	
 		}
-							
-		
+									
 		//SELECT
 		echo "<tr><td><br /></td></tr>";
 		
@@ -340,61 +330,49 @@ try
 		
 		$gtop = new COM("LinkarCommon.TableOptions");
 		$gtop -> InitializePropertiesLkSchemas(1, False, False, False, True, True, False, True, False, 10, 1);			
+		$errorGetTable = "";
+		$mylkstring = $lkClt -> GetTable_Text($errorGetTable, $fileName, "", "", "BY CODE", $gtop);
 		
-		$mylkstring = $lkClt -> GetTable_Text(fileName, "", "", "BY CODE", $gtop);
-		
-		if (strpos($mylkstring, $mvchars -> AM_str) !== false)
+		if($errorGetTable == "")
 		{
-			echo "<tr>";
-			echo "<td>GetTable</td>";
-			echo "<td></td>";
-			echo "</tr>";			
-			$rows = explode ($mvchars -> AM_str, $mylkstring); 
-			for ($i = 0; $i < count($rows); $i++) 
+			if (strpos($mylkstring, $mvchars -> AM_str) !== false)
 			{
 				echo "<tr>";
+				echo "<td>GetTable</td>";
 				echo "<td></td>";
-				$columns = explode (chr(9), $rows[$i]); 				
-				for ($j = 0; $j < count($columns); $j++) 
+				echo "</tr>";			
+				$rows = explode ($mvchars -> AM_str, $mylkstring); 
+				for ($i = 0; $i < count($rows); $i++) 
 				{
-					echo utf8_encode("<td>{$columns[$j]}</td>");
+					echo "<tr>";
+					echo "<td></td>";
+					$columns = explode (chr(9), $rows[$i]); 				
+					for ($j = 0; $j < count($columns); $j++) 
+					{
+						echo utf8_encode("<td>{$columns[$j]}</td>");
+					}
+					echo "</tr>";
 				}
-				echo "</tr>";
 			}
+			else
+			{	
+				echo "<tr>";
+				echo "<td>GetTable</td>";
+				echo utf8_encode("<td colspan=\"9\">{$mylkstring}</td>");
+				echo "</tr>";
+			}		
 		}
 		else
-		{	
-			echo "<tr>";
-			echo "<td>GetTable</td>";
-			echo utf8_encode("<td colspan=\"9\">{$mylkstring}</td>");
-			echo "</tr>";
-		}		
-		
-		//SENDCOMMAND	
-		/*echo "<br />";
-	
-		$errorCommand = "";
-		$command = "<COMMAND NAME=\"READ\"><CALCULATED>False</CALCULATED><DICTIONARIES>False</DICTIONARIES><CONVERSION>False</CONVERSION><FORMAT_SPEC>False</FORMAT_SPEC><ORIGINAL_RECORDS>False</ORIGINAL_RECORDS><CUSTOM_VARS></CUSTOM_VARS><OUTPUT_FORMAT>MV</OUTPUT_FORMAT><FILE_NAME>{$fileName}</FILE_NAME><RECORD_IDS><ID>2</ID></RECORD_IDS><RECORD_DICTIONARIES></RECORD_DICTIONARIES></COMMAND>";
-		
-		echo "SENDCOMMAND<br />";
-		$resultCommand = $lkClt -> SendCommand($errorCommand, $command, 0);
-
-		echo "<br />";
-		echo $errorCommand;
-		if ($errorCommand != "")
 		{
-			echo "ERROR: {$errorCommand}<br />";
+			echo "<tr>";
+			echo "<td>GetTable ERROR</td>";
+			echo utf8_encode("<td colspan=\"9\">{$errorGetTable}</td>");
+			echo "</tr>";			
 		}
-		else
-		{			
-			echo "RESULT: <textarea rows=\"1\" cols=\"1000\" style=\"border:none;\">{$resultCommand}</textarea><br />";
-		}	*/	
 		
 		//LOGOUT
 	
-		$lkClt -> Logout();
-
-				
+		$lkClt -> Logout();				
 	}
 	else
 	{
