@@ -52,4 +52,7 @@ C:\>C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm "C:\linkar\Clients\NE
 - You must have installed the 4.5 (v4.0.30319) Framework and use Regasm from that FrameWork
 - There are two RegAsm versions, 32 and 64 bits (FrameWork or FrameWork64), you will have to use the same as the Linkar one you want to register, otherwise the command will return an error.
 
+ NOTICE!
+  From PHP 5.4.5, COM and DOTNET is no longer built into the php core.you have to add COM support in php.ini:
+     extension=php_com_dotnet.dll
  
