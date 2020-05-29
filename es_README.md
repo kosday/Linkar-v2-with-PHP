@@ -55,3 +55,6 @@ C:\>C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm "C:\linkar\Clients\NE
 - Debe tener instalada la Framework 4.5 (v4.0.30319) y usar el RegAsm de dicha Framework.
 
 - Existen dos versiones de RegAsm, para 32 y 64 bits (Framework o Framework64), debe usar la misma que la de la librería a registrar o el comando devolverá un error.
+
+¡AVISO! Desde PHP 5.4.5, COM y DOTNET ya no están integrados en el núcleo de php. Se debe agregar soporte COM en php.ini:
+extension = php_com_dotnet.dll
