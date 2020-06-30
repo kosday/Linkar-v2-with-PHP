@@ -43,7 +43,7 @@ try
 		
 		$nop = new COM("LinkarCommon.NewOptions");
 		$nrit = new COM("LinkarCommon.RecordIdType");
-		$nop -> InitializeProperties($nrit, true, false, false, false, false, false);
+		$nop -> InitializeProperties($nrit, true, false, false, false, false);
 		
 		$mylkdata = $lkClt -> New($fileName, $strNewId, $strNewRecord, $nop);
 		
@@ -116,7 +116,7 @@ try
 		//UPDATE
 	
 		$uop = new COM("LinkarCommon.UpdateOptions");
-		$uop -> InitializeProperties(false, true, false, false, false, false, false);
+		$uop -> InitializeProperties(false, true, false, false, false, false);
 		
 		$mylkdata= $lkClt -> Update($fileName, $strNewId, $strRecord, $uop);
 		
@@ -136,7 +136,7 @@ try
 		//READ
 		
 		$rop = new COM("LinkarCommon.ReadOptions");
-		$rop -> InitializeProperties(false, false, false, false, false);			
+		$rop -> InitializeProperties(false, false, false, false);			
 		
 		$mylkdata = $lkClt -> Read($fileName, $strNewId, "ADDR", $rop);
 		
@@ -287,7 +287,7 @@ try
 		echo "<tr><td><br /></td></tr>";
 		
 		$sop = new COM("LinkarCommon.SelectOptions");
-		$sop -> InitializeProperties(false, true, 20, 1, true, false, false, false, true);			
+		$sop -> InitializeProperties(false, true, 20, 1, true, false, false, false);			
 		
 		$mylkdata = $lkClt -> Select($fileName, "", "BY CODE", "", "", $sop);
 		

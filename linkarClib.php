@@ -74,8 +74,7 @@ try
 		$nop_conversion = 0; // BOOL 0:FALSE 1:TRUE
 		$nop_formatSpec = 0; // BOOL 0:FALSE 1:TRUE
 		$nop_originalRecords = 0; // BOOL 0:FALSE 1:TRUE
-		$nop_dictionaries = 0; // BOOL 0:FALSE 1:TRUE
-		$newOptions = LkCreateNewOptions($nop_newItemIdTypeNone, $nop_readAfter, $nop_calculated, $nop_conversion, $nop_formatSpec, $nop_originalRecords, $nop_dictionaries);
+		$newOptions = LkCreateNewOptions($nop_newItemIdTypeNone, $nop_readAfter, $nop_calculated, $nop_conversion, $nop_formatSpec, $nop_originalRecords);
 		$lkStringNew = LkNew($connectionInfo, $hasError, $fileName, $strNewId, $strNewRecord, $newOptions, $IO_FORMAT_MV, $IO_FORMAT_MV, $customVars, $receiveTimeout);
 		if($hasError)
 		{
@@ -156,8 +155,7 @@ try
 		$uop_conversion = 0; // BOOL 0:FALSE 1:TRUE
 		$uop_formatSpec = 0; // BOOL 0:FALSE 1:TRUE
 		$uop_originalRecords = 0; // BOOL 0:FALSE 1:TRUE
-		$uop_dictionaries = 0; // BOOL 0:FALSE 1:TRUE
-		$updateOptions = LkCreateUpdateOptions($uop_optimisticLock, $uop_readAfter, $uop_calculated, $uop_conversion, $uop_formatSpec, $uop_originalRecords, $uop_dictionaries);
+		$updateOptions = LkCreateUpdateOptions($uop_optimisticLock, $uop_readAfter, $uop_calculated, $uop_conversion, $uop_formatSpec, $uop_originalRecords);
 
 		$originalRecords = "";
 
@@ -199,8 +197,7 @@ try
 		$rop_conversion = 0; // BOOL 0:FALSE 1:TRUE
 		$rop_formatSpec = 0; // BOOL 0:FALSE 1:TRUE
 		$rop_originalRecords = 0; // BOOL 0:FALSE 1:TRUE
-		$rop_dictionaries = 0; // BOOL 0:FALSE 1:TRUE
-		$readOptions = LkCreateReadOptions($rop_calculated, $rop_conversion, $rop_formatSpec, $rop_originalRecords, $rop_dictionaries);
+		$readOptions = LkCreateReadOptions($rop_calculated, $rop_conversion, $rop_formatSpec, $rop_originalRecords);
 
 		$dictionaries = "ADDR";
 		$lkStringRead = LkRead($connectionInfo, $hasError, $fileName, $strNewId, $dictionaries, $readOptions, $IO_FORMAT_MV, $customVars, $receiveTimeout);
@@ -414,9 +411,8 @@ try
 		$sop_conversion = 0; // BOOL 0:FALSE 1:TRUE
 		$sop_formatSpec = 0; // BOOL 0:FALSE 1:TRUE
 		$sop_originalRecords = 0; // BOOL 0:FALSE 1:TRUE
-		$sop_dictionaries = 0; // BOOL 0:FALSE 1:TRUE
 		$selectOptions = LkCreateSelectOptions($sop_onlyRecordId, $sop_pagination, $sop_regPage, $sop_numPage,
-											   $sop_calculated, $sop_conversion, $sop_formatSpec, $sop_originalRecords, $sop_dictionaries);
+											   $sop_calculated, $sop_conversion, $sop_formatSpec, $sop_originalRecords);
 
 		$selectClause = "";
 		$sortClause = "BY CODE";
@@ -603,7 +599,7 @@ try
 		{			
 			echo "</tr>";
 			
-			$rows = explode ($DBMV_Mark_AM, $lkStringGetTable);
+			$rows = explode (chr(11), $lkStringGetTable);
 			for($i =0; $i < count($rows); $i++)
 			{
 				echo "<tr>";
